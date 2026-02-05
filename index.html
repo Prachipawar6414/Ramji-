@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> my  Shree Radhe Sweets & Snacks | Order Online    </title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --primary: #D4A017; /* Golden Color */
+            --secondary: #8B0000; /* Deep Red Color */
+            --bg: #FFFBF2; 
+            --white: #ffffff; 
+            --dark: #1a1a1a; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg); color: #333; }
+
+        /* --- NAVBAR STYLE --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 8%; background: var(--white); position: fixed;
+            width: 100%; top: 0; z-index: 2000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--secondary); font-weight: bold; text-decoration: none; }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; list-style: none; gap: 20px; }
+        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        .cart-stat { background: var(--secondary); color: white; padding: 8px 18px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 60vh; margin-top: 70px;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1505253149613-112d21d9f6a9?auto=format&fit=crop&w=1600');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; color: white;
+        }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+
+        /* --- FILTER BUTTONS --- */
+        .menu-section { padding: 60px 8%; text-align: center; }
+        .main-cats { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; }
+        .cat-btn { padding: 12px 28px; border: none; background: white; border-radius: 50px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
+        .cat-btn.active { background: var(--secondary); color: white; }
+
+        .sub-cats { display: none; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; animation: fadeIn 0.4s; }
+        .sub-cats.active { display: flex; }
+        .sub-btn { padding: 8px 20px; border: 1.5px solid var(--primary); background: transparent; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+        .sub-btn:hover { background: var(--primary); color: white; }
+
+        /* --- PRODUCT CARDS --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: 0.4s; }
+        .card:hover { transform: translateY(-10px); }
+        
+        .card-img-wrapper { width: 100%; height: 220px; overflow: hidden; }
+        .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .card-content { padding: 25px; text-align: left; }
+        .card-content h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 8px; }
+        .price { color: var(--secondary); font-weight: 700; font-size: 1.3rem; margin-bottom: 15px; display: block; }
+        .add-btn { width: 100%; padding: 12px; border: none; background: var(--primary); color: white; border-radius: 12px; cursor: pointer; font-weight: bold; }
+
+        .whatsapp-order { position: fixed; bottom: 30px; right: 30px; background: #25D366; color: white; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 3000; }
+
+        footer { background: var(--dark); color: white; padding: 40px 8%; text-align: center; margin-top: 50px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">Shree <span>Radhe</span></a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#footer">Contact</a></li>
+        </ul>
+        <div class="cart-stat" id="cart-counter"><i class="fas fa-shopping-basket"></i> Items: 0</div>
+    </nav>
+
+    <section class="hero" id="home">
+        <h1>Traditional Taste</h1>
+        <p>Premium Quality Sweets & Snacks</p>
+    </section>
+
+    <div class="menu-section" id="menu">
+        
+        <div class="main-cats">
+            <button class="cat-btn active" onclick="showSub('all', this)">All Menu</button>
+            <button class="cat-btn" onclick="showSub('sweets', this)">Mithai 🍬</button>
+            <button class="cat-btn" onclick="showSub('snacks', this)">Snacks 🥟</button>
+            <button class="cat-btn" onclick="showSub('cake', this)">Cakes 🎂</button>
+        </div> 
+
+        <div id="sub-sweets" class="sub-cats">
+            <button class="sub-btn" onclick="filterItems('Kaju')">Kaju Special</button>
+            <button class="sub-btn" onclick="filterItems('Ghee')">Desi Ghee</button>
+            <button class="sub-btn" onclick="filterItems('Bengali')">Bengali Sweets</button>
+        </div>
+
+        <div id="sub-snacks" class="sub-cats">
+            <button class="sub-btn" onclick="filterItems('Samosa')">Samosas</button>
+            <button class="sub-btn" onclick="filterItems('Namkeen')">Namkeens</button>
+            <button class="sub-btn" onclick="filterItems('Dhokla')">Dhokla/Khaman</button>
+        </div>
+
+        <div id="sub-cake" class="sub-cats">
+            <button class="sub-btn" onclick="filterItems('Chocolate')">Chocolate</button>
+            <button class="sub-btn" onclick="filterItems('Vanilla')">Vanilla/Fruit</button>
+            <button class="sub-btn" onclick="filterItems('Birthday')">Birthday Special</button>
+        </div>
+
+        <div class="grid" id="productGrid">
+            
+            <div class="card" data-cat="sweets" data-type="Kaju">
+                <div class="card-img-wrapper"><img src="https://tse2.mm.bing.net/th/id/OIP.rhqn47pDgT06Tx1itK-ubQHaFM?pid=Api&h=220&P=0"></div>
+                <div class="card-content">
+                    <h3>Kaju Katli</h3>
+                    <span class="price">₹900/kg</span>
+                    <button class="add-btn" onclick="addToCart('Kaju Katli', 900)">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="card" data-cat="sweets" data-type="Ghee">
+                <div class="card-img-wrapper"><img src="https://tse2.mm.bing.net/th/id/OIP.eFJq4eIw4E-WJEA5wbZlOQHaLL?pid=Api&h=220&P=0"></div>
+                <div class="card-content">
+                    <h3>Desi Ghee Laddu</h3>
+                    <span class="price">₹550/kg</span>
+                    <button class="add-btn" onclick="addToCart('Ghee Laddu', 550)">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="card" data-cat="snacks" data-type="Samosa">
+                <div class="card-img-wrapper"><img src="https://tse4.mm.bing.net/th/id/OIP.nIrROVHf_4ml3drm2Y7Q0QHaE_?pid=Api&h=220&P=0"></div>
+                <div class="card-content">
+                    <h3>Special Samosa</h3>
+                    <span class="price">₹20/pc</span>
+                    <button class="add-btn" onclick="addToCart('Paneer Samosa', 20)">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="card" data-cat="snacks" data-type="Dhokla">
+                <div class="card-img-wrapper"><img src="http://namkeen-online-indore-namkeen.weebly.com/uploads/3/1/1/3/31132987/9173712.jpg?606.5600000000001"></div>
+                <div class="card-content">
+                    <h3>Namkeens</h3>
+                    <span class="price">₹200/kg</span>
+                    <button class="add-btn" onclick="addToCart('Dhokla', 200)">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="card" data-cat="cake" data-type="Chocolate">
+                <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500"></div>
+                <div class="card-content">
+                    <h3>Eggless Choco Truffle</h3>
+                    <span class="price">₹500/lb</span>
+                    <button class="add-btn" onclick="addToCart('Chocolate Cake', 500)">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="card" data-cat="cake" data-type="Birthday">
+                <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=500"></div>
+                <div class="card-content">
+                    <h3>Premium Birthday Cake</h3>
+                    <span class="price">₹650/lb</span>
+                    <button class="add-btn" onclick="addToCart('Birthday Cake', 650)">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="card" data-cat="cake" data-type="Birthday">
+                <div class="card-img-wrapper"><img src="https://tse1.mm.bing.net/th/id/OIP.pbsIlsL-3rhtrTDBUnuX7AHaEK?pid=Api&h=220&P=0"></div>
+                <div class="card-content">
+                    <h3>Chocolate</h3>
+                    <span class="price">₹650/lb</span>
+                    <button class="add-btn" onclick="addToCart('Birthday Cake', 650)">Add to Order</button>
+                </div>
+            </div>
+            </div>
+    </div> 
+
+    <a href="javascript:void(0)" class="whatsapp-order" onclick="sendWhatsApp()">
+        <i class="fab fa-whatsapp"></i> Order on WhatsApp
+    </a>
+
+    <footer id="footer">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: left;">
+            <div>
+                <h3 class="logo" style="color:var(--primary); margin-bottom:15px;">Shree Radhe</h3>
+                <p>Purveyors of fine sweets since 1995. Quality and hygiene is our topmost priority.</p>
+            </div>
+            <div>
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Mithai Street, Main Bazaar</p>
+                <p><i class="fas fa-phone"></i> +91 88153 25282</p>
+            </div>
+            <div>
+                <h4>Store Timings</h4>
+                <p>Monday - Sunday</p>
+                <p>08:00 AM - 10:00 PM</p>
+            </div>
+        </div>
+        <div style="margin-top: 30px; border-top: 1px solid #444; padding-top: 20px;">&copy; 2026 Shree Radhe Sweets. Made with ❤️ for taste.</div>
+    </footer>
+
+    <script>
+        let cart = [];
+        const WHATSAPP_NUMBER = "918815325282"; 
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            document.getElementById('cart-counter').innerHTML = `<i class="fas fa-shopping-basket"></i> Items: ${cart.length}`;
+            
+            const btn = event.target;
+            btn.innerText = "✓ Added";
+            btn.style.background = "#25D366";
+            setTimeout(() => {
+                btn.innerText = "Add to Order";
+                btn.style.background = "var(--primary)";
+            }, 800);
+        }
+
+        function sendWhatsApp() {
+            if(cart.length === 0) return alert("Pehle kuch items add karein!");
+            let text = "*New Order - Shree Radhe*%0a--------------------------%0a";
+            let total = 0;
+            cart.forEach((item, i) => {
+                text += `${i+1}. ${item.name} - ₹${item.price}%0a`;
+                total += item.price;
+            });
+            text += "--------------------------%0a";
+            text += `*Total: ₹${total}*`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+        }
+
+        function showSub(cat, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            document.querySelectorAll('.sub-cats').forEach(s => s.classList.remove('active'));
+            const sub = document.getElementById('sub-'+cat);
+            if(sub) sub.classList.add('active');
+            
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.display = (cat === 'all' || card.getAttribute('data-cat') === cat) ? 'block' : 'none';
+            });
+        }
+
+        function filterItems(type) {
+            document.querySelectorAll('.card').forEach(card => {
+                const cardType = card.getAttribute('data-type');
+                card.style.display = (cardType === type) ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
